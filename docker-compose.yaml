@@ -6,18 +6,18 @@ services:
 
 #Zookeeper (reuired for kafka)
   zookeeper:
-    image: confluentinc/cp-zookeeper:7.5.0
+    image: confluentinc/cp-zookeeper:7.5.15
     container_name: eventflow-zookeeper
     environment:
-      - ZOOKEEPER_CLIENt_PORT: 2181
-      - ZOOKEEPER_TICK_TIME: 2000
+      ZOOKEEPER_CLIENT_PORT: 2181
+      ZOOKEEPER_TICK_TIME: 2000
     ports:
       - "2181:2181"
     volumes:
       - zookeeper-data:/var/lib/zookeeper/data
       - zookeeper-logs:/var/lib/zookeeper/log
   kafka:
-    image: confluentinc/cp-kafka:7.5.0
+    image: confluentinc/cp-kafka:7.5.15
     container_name: eventflow-kafka
     depends_on:
       - zookeeper
@@ -25,16 +25,16 @@ services:
       - "9093:9092"
       - "29092:29093"
     environment:
-      - KAFKA_BROKER_ID: 1
-      - KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
-      - KAFKA_LISTENERS: PLAINTEXT://0.0.0.0:29092,PLAINTEXT_HOST://0.0.0.0:9092
-      - KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:29092,PLAINTEXT_HOST://localhost:9093
-      - KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT,PLAINTEXT_HOST:PLAINTEXT
-      - KAFKA_INTER_BROKER_LISTERNER_NAME: PLAINTEXT
-      - KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
-      - KAFKA_GROUP_INITIAL_REBALANCE_DELAY_MS: 0
-      - KAFKA_TRANSACTION_STATE_LOG_MIN_ISR: 1
-      - KAFKA_TRANSACTION_STATE_LOG_REPLICAION_FACTOR: 1
+      KAFKA_BROKER_ID: 1
+      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+      KAFKA_LISTENERS: PLAINTEXT://0.0.0.0:29092,PLAINTEXT_HOST://0.0.0.0:9092
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:29092,PLAINTEXT_HOST://localhost:9093
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT,PLAINTEXT_HOST:PLAINTEXT
+      KAFKA_INTER_BROKER_LISTENER_NAME: PLAINTEXT
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+      KAFKA_GROUP_INITIAL_REBALANCE_DELAY_MS: 0
+      KAFKA_TRANSACTION_STATE_LOG_MIN_ISR: 1
+      KAFKA_TRANSACTION_STATE_LOG_REPLICATION_FACTOR: 1
     volumes:
       - kafka-data:/var/lib/kafka/data
 
@@ -51,26 +51,25 @@ services:
       KAFKA_CLUSTERS_0_ZOOKEEPER: zookeeper:2181
 
   postgres:
-    image: postgress:16-alpine
+    image: postgres:17
     container_name: eventflow-postgres
     ports:
       - "5432:5432"
     environment:
-      - POSTGRES_USER: eventflow
-      - POSTGRES_PASSWORD: eventflow_password
-      - POSTGRES_DB: eventflow
+      POSTGRES_USER: eventflow
+      POSTGRES_PASSWORD: eventflow_password
+      POSTGRES_DB: eventflow
     volumes:
       - postgres-data:/var/lib/postgresql/data
 
 # Redis
   redis:
-    image: redis:7-alipine
-    container_name: eventflow-redis
+    image: redis:8.2.7
+    container_name: eventflowapp-redis
     ports:
       - "6379:6379"
     volumes:
-      -redis-data:/data
-
+      - redis-data:/data
 
 # Development tools
 
@@ -81,10 +80,9 @@ services:
       - "1025:1025" # SMTP Server
       - "8025:8025" # Web UI
 
-    volumes:
-      zoopeeker-data:
-      zookeeper-logs:
-      kafka-data:
-      postgres-data:
-      redis-data:
-
+volumes:
+  zookeeper-data:
+  zookeeper-logs:
+  kafka-data:
+  postgres-data:
+  redis-data:
