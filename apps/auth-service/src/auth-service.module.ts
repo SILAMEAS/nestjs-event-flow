@@ -9,17 +9,22 @@ import { JwtStrategy } from './jwt.strategy';
 import { LoggerMiddleware } from '@app/common/utils/middle.util';
 
 @Module({
-  imports: [KafkaModule.register(KAFKA_GROUPS.AUTH_SERVICE),DatabaseModule,PassportModule,JwtModule.register({
-    secret:process.env.JWT_SECRET||"secret_jwt",
-    signOptions:{
-      expiresIn:'1d'
-    }
-  })],
+  imports: [
+    KafkaModule.register(KAFKA_GROUPS.AUTH_SERVICE),
+    DatabaseModule,
+    PassportModule,
+    JwtModule.register({
+      secret: process.env.JWT_SECRET || 'secret_jwt',
+      signOptions: {
+        expiresIn: '1d',
+      },
+    }),
+  ],
   controllers: [AuthServiceController],
-  providers: [AuthServiceService,JwtStrategy],
+  providers: [AuthServiceService, JwtStrategy],
 })
-export class AuthServiceModule implements NestModule{
+export class AuthServiceModule implements NestModule {
   configure(consumer: MiddlewareConsumer) {
-    consumer.apply(LoggerMiddleware).forRoutes("*")
+    consumer.apply(LoggerMiddleware).forRoutes('*');
   }
- }
+}

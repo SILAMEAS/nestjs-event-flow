@@ -5,6 +5,6 @@ import { AppModule } from './app.module';
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   await app.listen(SERVICES_PORT.API_GATEWAY);
-  Custom.ConsolePortRunning(SERVICES.API_GATEWAY)
+  Custom.ConsolePortRunning(SERVICES.API_GATEWAY);
 }
 bootstrap();

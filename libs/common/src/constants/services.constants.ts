@@ -1,14 +1,13 @@
 export const SERVICES = {
-    API_GATEWAY: "api-gateway",
-    AUTH_SERVICE: "auth-service",
-    USER_SERVICE: "user-service",
-    EVENT_SERVCIE: "event-service",
-    TICKET_SERVICE: "ticket-service",
-    PAYMENT_SERVICE: "payment-service",
-    NOTIFICATION: "notification-service"
+  API_GATEWAY: 'api-gateway',
+  AUTH_SERVICE: 'auth-service',
+  USER_SERVICE: 'user-service',
+  EVENT_SERVCIE: 'event-service',
+  TICKET_SERVICE: 'ticket-service',
+  PAYMENT_SERVICE: 'payment-service',
+  NOTIFICATION: 'notification-service',
 } as const;
-export type Service =
-  (typeof SERVICES)[keyof typeof SERVICES];
+export type Service = (typeof SERVICES)[keyof typeof SERVICES];
 
 const BASE_PORT = 4100;
 
@@ -22,20 +21,15 @@ export const SERVICES_PORT = {
   NOTIFICATION_SERVICE: BASE_PORT + 6,
 } as const;
 
+export const getServiceName = (key: keyof typeof SERVICES) => SERVICES[key];
 
-export const getServiceName = (
-  key: keyof typeof SERVICES,
-) => SERVICES[key];
-
-export const getPort = (
-  key: keyof typeof SERVICES_PORT,
-) => SERVICES_PORT[key];
+export const getPort = (key: keyof typeof SERVICES_PORT) => SERVICES_PORT[key];
 
 export const getKeyByServiceName = (
   name: (typeof SERVICES)[keyof typeof SERVICES],
 ) => {
   return Object.keys(SERVICES).find(
-    key => SERVICES[key as keyof typeof SERVICES] === name,
+    (key) => SERVICES[key as keyof typeof SERVICES] === name,
   ) as keyof typeof SERVICES | undefined;
 };
 

@@ -1,8 +1,4 @@
-import {
-  Injectable,
-  NestMiddleware,
-  Logger,
-} from '@nestjs/common';
+import { Injectable, Logger, NestMiddleware } from '@nestjs/common';
 import { NextFunction, Request, Response } from 'express';
 import { randomUUID } from 'crypto';
 
