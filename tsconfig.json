@@ -39,6 +39,12 @@
       ],
       "@app/kafka/*": [
         "libs/kafka/src/*"
+      ],
+      "@app/log": [
+        "libs/log/src"
+      ],
+      "@app/log/*": [
+        "libs/log/src/*"
       ]
     }
   }

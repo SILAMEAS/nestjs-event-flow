@@ -34,6 +34,8 @@
     "@nestjs/platform-express": "^11.0.1",
     "@nestjs/typeorm": "^11.0.2",
     "bcrypt": "^6.0.0",
+    "class-transformer": "^0.5.1",
+    "class-validator": "^0.15.1",
     "dotenv": "^17.4.2",
     "drizzle-orm": "^0.45.2",
     "kafkajs": "^2.2.4",
@@ -96,7 +98,8 @@
     "moduleNameMapper": {
       "^@app/common(|/.*)$": "<rootDir>/libs/common/src/$1",
       "^@app/database(|/.*)$": "<rootDir>/libs/database/src/$1",
-      "^@app/kafka(|/.*)$": "<rootDir>/libs/kafka/src/$1"
+      "^@app/kafka(|/.*)$": "<rootDir>/libs/kafka/src/$1",
+      "^@app/log(|/.*)$": "<rootDir>/libs/log/src/$1"
     }
   }
 }

@@ -8,4 +8,4 @@
 
 ## validator/tranform
 
-###  
+### npm i class-validator class-transformer
