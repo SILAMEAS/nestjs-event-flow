@@ -9,3 +9,7 @@
 ## validator/tranform
 
 ### npm i class-validator class-transformer
+
+### add module<auth> to api-gateway
+
+nest g mo auth --project api-gateway 

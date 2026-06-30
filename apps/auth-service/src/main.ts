@@ -1,4 +1,4 @@
-import { Custom, SERVICES, SERVICES_PORT } from '@app/common';
+import { Custom, ENV } from '@app/common';
 import { NestFactory } from '@nestjs/core';
 import { AuthServiceModule } from './auth-service.module';
 import { ValidationPipe } from '@nestjs/common';
@@ -7,6 +7,7 @@ import { LoggerInterceptor } from '@app/common/logger/logger.interceptor';
 
 async function bootstrap() {
   const app = await NestFactory.create(AuthServiceModule);
+  // Add Prefix for all end point
   app.setGlobalPrefix('api');
   // Enable Validation
   app.useGlobalPipes(
@@ -19,7 +20,7 @@ async function bootstrap() {
   // Logger
   app.useGlobalInterceptors(new LoggerInterceptor());
   app.useGlobalFilters(new HttpExceptionFilter());
-  await app.listen(SERVICES_PORT.AUTH_SERVICE);
-  Custom.ConsolePortRunning(SERVICES.AUTH_SERVICE);
+  await app.listen(ENV.AUTH_SERVICE);
+  Custom.ConsolePortRunning(ENV.HOST + ENV.AUTH_SERVICE);
 }
 bootstrap();

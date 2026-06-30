@@ -5,13 +5,13 @@ import {
   KAFKA_CLIENT_ID,
   KAFKA_CONSUMER_GROUP,
 } from './constants/kafka.constants';
-import { SERVICES } from '@app/common';
+import { ENV } from '@app/common';
 
 export const KAFKA_SERVICE = 'KAFKA_SERVICE';
 export const KAFKA_GROUPS = Object.fromEntries(
-  Object.entries(SERVICES).map(([key, value]) => [key, `${value}-group`]),
+  Object.entries(ENV).map(([key, value]) => [key, `${value}-group`]),
 ) as {
-  [K in keyof typeof SERVICES]: `${(typeof SERVICES)[K]}-group`;
+  [K in keyof typeof ENV]: `${(typeof ENV)[K]}-group`;
 };
 
 @Module({})

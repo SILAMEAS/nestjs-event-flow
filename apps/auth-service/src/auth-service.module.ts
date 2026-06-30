@@ -10,7 +10,7 @@ import { LoggerMiddleware } from '@app/common/utils/middle.util';
 
 @Module({
   imports: [
-    KafkaModule.register(KAFKA_GROUPS.AUTH_SERVICE),
+    KafkaModule.register(KAFKA_GROUPS.AUTH_SERVICE_NAME),
     DatabaseModule,
     PassportModule,
     JwtModule.register({
