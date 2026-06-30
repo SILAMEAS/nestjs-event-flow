@@ -8,6 +8,7 @@ import {
 import { Observable } from 'rxjs';
 
 import { tap } from 'rxjs/operators';
+import { ColorConsole } from '@app/common/constants';
 
 @Injectable()
 export class LoggerInterceptor implements NestInterceptor {
@@ -22,10 +23,18 @@ export class LoggerInterceptor implements NestInterceptor {
 
     // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
     const { method, originalUrl, body, query, ip, headers } = request;
-
     return next.handle().pipe(
       tap(() => {
         const duration = Date.now() - start;
+        console.info(
+          ColorConsole.GREEN,
+          '-------------------------------------------------',
+        );
+        console.info(ColorConsole.GREEN, `${method} ${originalUrl}`);
+        console.info(
+          ColorConsole.GREEN,
+          '-------------------------------------------------',
+        );
 
         console.log({
           type: 'SUCCESS',
