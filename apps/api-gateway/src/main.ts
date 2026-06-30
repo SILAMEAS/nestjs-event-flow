@@ -8,7 +8,7 @@ async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   app.useGlobalInterceptors(new LoggerInterceptor());
   app.useGlobalFilters(new HttpExceptionFilter());
-  await app.listen(ENV.API_GATEWAY);
-  Custom.ConsolePortRunning(ENV.HOST + ENV.API_GATEWAY);
+  await app.listen(ENV.API_GATEWAY_PORT);
+  Custom.ConsolePortRunning(ENV.HOST + ENV.API_GATEWAY_PORT);
 }
 bootstrap();

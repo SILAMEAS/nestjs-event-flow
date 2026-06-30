@@ -20,7 +20,7 @@ async function bootstrap() {
   // Logger
   app.useGlobalInterceptors(new LoggerInterceptor());
   app.useGlobalFilters(new HttpExceptionFilter());
-  await app.listen(ENV.AUTH_SERVICE);
-  Custom.ConsolePortRunning(ENV.HOST + ENV.AUTH_SERVICE);
+  await app.listen(ENV.AUTH_SERVICE_PORT);
+  Custom.ConsolePortRunning(ENV.HOST + ENV.AUTH_SERVICE_PORT);
 }
 bootstrap();
