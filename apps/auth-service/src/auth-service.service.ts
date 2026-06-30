@@ -4,25 +4,25 @@ import {
   ConflictException,
   Inject,
   Injectable,
-  OnModuleInit,
   UnauthorizedException,
 } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { ClientKafka } from '@nestjs/microservices';
 import * as bcrypt from 'bcrypt';
 import { eq } from 'drizzle-orm';
+import { ENV } from '@app/common';
 
 @Injectable()
-export class AuthServiceService implements OnModuleInit {
+export class AuthServiceService {
   constructor(
     @Inject(KAFKA_SERVICE) private readonly kafkaClient: ClientKafka,
     private readonly dbService: DatabaseService,
     private readonly jwtService: JwtService,
   ) {}
 
-  async onModuleInit() {
-    await this.kafkaClient.connect();
-  }
+  // async onModuleInit() {
+  //   await this.kafkaClient.connect();
+  // }
   async register(email: string, password: string, name: string) {
     const exist = await this.dbService.db
       .select()
@@ -63,8 +63,11 @@ export class AuthServiceService implements OnModuleInit {
     if (!user || !(await bcrypt.compare(password, user.password))) {
       throw new UnauthorizedException('Invalid credentails');
     }
-    const token = this.jwtService.sign({ sub: user.id, email: email });
-
+    const payload = { sub: user.id, email: user.email, role: user.role };
+    const token = await this.jwtService.signAsync(payload, {
+      secret: ENV.ACCESS_TOKEN_SECRET,
+      expiresIn: ENV.ACCESS_TOKEN_SECRET_EXP,
+    });
     this.kafkaClient.emit(KAFKA_TOPICS.USER_LOGIN, {
       userId: user.id,
       timestamp: new Date().toISOString(),

@@ -3,17 +3,19 @@ import {
   Body,
   Controller,
   Get,
+  HttpCode,
+  HttpStatus,
   Post,
-  Request,
-  UseGuards,
 } from '@nestjs/common';
 import { AuthServiceService } from './auth-service.service';
-import { AuthGuard } from '@nestjs/passport';
+import { CurrentUser, Public } from '@app/common/decorator';
+import type { User } from '@app/database';
 
 @Controller('auth')
 export class AuthServiceController {
   constructor(private readonly authServiceService: AuthServiceService) {}
 
+  @Public()
   @Post('register')
   registerUser(@Body() body: RegisterDto) {
     return this.authServiceService.register(
@@ -23,14 +25,15 @@ export class AuthServiceController {
     );
   }
 
+  @Public()
   @Post('login')
+  @HttpCode(HttpStatus.OK)
   login(@Body() body: LoginDto) {
     return this.authServiceService.login(body.email, body.password);
   }
 
-  @UseGuards(AuthGuard('jwt'))
   @Get('profile')
-  getProfile(@Request() req: { user: { userId: string } }) {
-    return this.authServiceService.getProfile(req.user.userId);
+  getProfile(@CurrentUser() user: User) {
+    return this.authServiceService.getProfile(user.id);
   }
 }

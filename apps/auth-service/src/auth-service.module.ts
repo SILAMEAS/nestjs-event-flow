@@ -6,6 +6,10 @@ import { PassportModule } from '@nestjs/passport';
 import { AuthServiceController } from './auth-service.controller';
 import { AuthServiceService } from './auth-service.service';
 import { JwtStrategy } from './jwt.strategy';
+import { APP_GUARD } from '@nestjs/core';
+import { JwtAuthGuard } from '@app/common/guards/jwt-auth.guards';
+import { RoleGuards } from '@app/common/guards/role.guards';
+import { ENV } from '@app/common';
 
 @Module({
   imports: [
@@ -13,13 +17,19 @@ import { JwtStrategy } from './jwt.strategy';
     DatabaseModule,
     PassportModule,
     JwtModule.register({
-      secret: process.env.JWT_SECRET || 'secret_jwt',
+      secret: ENV.ACCESS_TOKEN_SECRET,
       signOptions: {
-        expiresIn: '1d',
+        expiresIn: ENV.ACCESS_TOKEN_SECRET_EXP,
       },
     }),
   ],
   controllers: [AuthServiceController],
-  providers: [AuthServiceService, JwtStrategy],
+  providers: [
+    AuthServiceService,
+    JwtStrategy,
+    // { provide: APP_GUARD, useClass: ThrottlerGuard },
+    { provide: APP_GUARD, useClass: JwtAuthGuard },
+    { provide: APP_GUARD, useClass: RoleGuards },
+  ],
 })
 export class AuthServiceModule {}

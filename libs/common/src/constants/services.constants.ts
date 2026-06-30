@@ -18,6 +18,7 @@ export const ENV: {
   NOTIFICATION_SERVICE_PORT: number;
   DATABASE_URL: string;
   ACCESS_TOKEN_SECRET: string;
+  ACCESS_TOKEN_SECRET_EXP: number;
   PRODUCTION_MODE: boolean;
 } = {
   HOST: process.env.HOST!,
@@ -38,4 +39,5 @@ export const ENV: {
   DATABASE_URL: process.env.DATABASE_URL!,
   ACCESS_TOKEN_SECRET: process.env.ACCESS_TOKEN_SECRET!,
   PRODUCTION_MODE: Boolean(process.env.PRODUCTION_MODE !== 'false'),
+  ACCESS_TOKEN_SECRET_EXP: +process.env.ACCESS_TOKEN_SECRET_EXP!,
 };

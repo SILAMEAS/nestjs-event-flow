@@ -31,11 +31,13 @@ export class AuthService {
       handleError(err);
     }
   }
-  async getProfile(token: string) {
+  async getProfile(authorization: string) {
     try {
       const res = await firstValueFrom(
         this.httpService.get(`${this.authServiceUrl}/profile`, {
-          headers: { Authorization: 'Bearer ' + token },
+          headers: {
+            Authorization: authorization,
+          },
         }),
       );
       // eslint-disable-next-line @typescript-eslint/no-unsafe-return
