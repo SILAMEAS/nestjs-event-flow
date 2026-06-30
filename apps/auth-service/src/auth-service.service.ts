@@ -4,6 +4,7 @@ import {
   ConflictException,
   Inject,
   Injectable,
+  OnModuleInit,
   UnauthorizedException,
 } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
@@ -13,16 +14,16 @@ import { eq } from 'drizzle-orm';
 import { ENV } from '@app/common';
 
 @Injectable()
-export class AuthServiceService {
+export class AuthServiceService implements OnModuleInit {
   constructor(
     @Inject(KAFKA_SERVICE) private readonly kafkaClient: ClientKafka,
     private readonly dbService: DatabaseService,
     private readonly jwtService: JwtService,
   ) {}
 
-  // async onModuleInit() {
-  //   await this.kafkaClient.connect();
-  // }
+  async onModuleInit() {
+    await this.kafkaClient.connect();
+  }
   async register(email: string, password: string, name: string) {
     const exist = await this.dbService.db
       .select()

@@ -20,7 +20,6 @@ export class AuthService {
     }
   }
   async login(data: { email: string; password: string }) {
-    console.log('authServiceUrl', this.authServiceUrl);
     try {
       const res = await firstValueFrom(
         this.httpService.post(`${this.authServiceUrl}/login`, data),
