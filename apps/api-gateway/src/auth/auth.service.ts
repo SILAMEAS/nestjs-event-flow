@@ -1,14 +1,13 @@
 import { Injectable } from '@nestjs/common';
-import { ENV } from '@app/common';
+import { ENV, toUrlByPort } from '@app/common';
 import { HttpService } from '@nestjs/axios';
 import { firstValueFrom } from 'rxjs';
 import { handleError } from '@app/common/errors/handleError';
 
 @Injectable()
 export class AuthService {
-  private readonly authServiceUrl = `${ENV.HOST}${ENV.AUTH_SERVICE_PORT}/api/auth`;
+  private readonly authServiceUrl = `${toUrlByPort(ENV.AUTH_SERVICE_PORT)}/auth`;
   constructor(private readonly httpService: HttpService) {}
-
   async register(data: { email: string; password: string; name: string }) {
     try {
       const res = await firstValueFrom(
@@ -21,8 +20,8 @@ export class AuthService {
     }
   }
   async login(data: { email: string; password: string }) {
+    console.log('authServiceUrl', this.authServiceUrl);
     try {
-      console.log('API GATE LOGIN');
       const res = await firstValueFrom(
         this.httpService.post(`${this.authServiceUrl}/login`, data),
       );

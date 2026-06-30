@@ -96,4 +96,15 @@ export class AuthServiceService implements OnModuleInit {
     }
     return user;
   }
+  async getProfileInternal(userId: string) {
+    const [user] = await this.dbService.db
+      .select()
+      .from(users)
+      .where(eq(users.id, userId))
+      .limit(1);
+    if (!user) {
+      throw new UnauthorizedException('User not found');
+    }
+    return user;
+  }
 }

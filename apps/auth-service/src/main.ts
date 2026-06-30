@@ -7,8 +7,6 @@ import { LoggerInterceptor } from '@app/common/logger/logger.interceptor';
 
 async function bootstrap() {
   const app = await NestFactory.create(AuthServiceModule);
-  // Add Prefix for all end point
-  app.setGlobalPrefix('api');
   // Enable Validation
   app.useGlobalPipes(
     new ValidationPipe({
@@ -21,6 +19,9 @@ async function bootstrap() {
   app.useGlobalInterceptors(new LoggerInterceptor());
   app.useGlobalFilters(new HttpExceptionFilter());
   await app.listen(ENV.AUTH_SERVICE_PORT);
-  Custom.ConsolePortRunning(ENV.HOST + ENV.AUTH_SERVICE_PORT);
+  Custom.ConsolePortRunning({
+    name: ENV.AUTH_SERVICE_NAME,
+    port: ENV.AUTH_SERVICE_PORT,
+  });
 }
 bootstrap();

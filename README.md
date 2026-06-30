@@ -12,4 +12,6 @@
 
 ### add module<auth> to api-gateway
 
-nest g mo auth --project api-gateway 
+nest g mo auth --project api-gateway
+
+npm i @nestjs/mapped-types

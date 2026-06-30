@@ -1,6 +1,25 @@
 import 'dotenv/config';
 
-export const ENV = {
+export const ENV: {
+  HOST: string;
+  API_GATEWAY_NAME: string;
+  AUTH_SERVICE_NAME: string;
+  USER_SERVICE_NAME: string;
+  EVENT_SERVICE_NAME: string;
+  TICKET_SERVICE_NAME: string;
+  PAYMENT_SERVICE_NAME: string;
+  NOTIFICATION_SERVICE_NAME: string;
+  API_GATEWAY_PORT: number;
+  AUTH_SERVICE_PORT: number;
+  USER_SERVICE_PORT: number;
+  EVENT_SERVICE_PORT: number;
+  TICKET_SERVICE_PORT: number;
+  PAYMENT_SERVICE_PORT: number;
+  NOTIFICATION_SERVICE_PORT: number;
+  DATABASE_URL: string;
+  ACCESS_TOKEN_SECRET: string;
+  PRODUCTION_MODE: boolean;
+} = {
   HOST: process.env.HOST!,
   API_GATEWAY_NAME: process.env.API_GATEWAY_NAME!,
   AUTH_SERVICE_NAME: process.env.AUTH_SERVICE_NAME!,
@@ -17,4 +36,6 @@ export const ENV = {
   PAYMENT_SERVICE_PORT: +process.env.PAYMENT_SERVICE_PORT!,
   NOTIFICATION_SERVICE_PORT: +process.env.NOTIFICATION_SERVICE_PORT!,
   DATABASE_URL: process.env.DATABASE_URL!,
+  ACCESS_TOKEN_SECRET: process.env.ACCESS_TOKEN_SECRET!,
+  PRODUCTION_MODE: Boolean(process.env.PRODUCTION_MODE !== 'false'),
 };
